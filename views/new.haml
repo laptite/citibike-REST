@@ -1,0 +1,8 @@
+@@new
+= haml :errors, :layout => false
+%form(action="/stations" method="POST")
+  %fieldset
+    %legend Create a new station
+    = haml :form, :layout => false
+  %input(type="submit" value="Create") or <a href='/stations'>cancel</a>
+  

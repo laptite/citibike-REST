@@ -1,0 +1,5 @@
+@@errors
+-if @stations.errors.any?
+  %ul#errors
+  -@stations.errors.each do |error|
+    %li= error

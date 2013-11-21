@@ -1,0 +1,8 @@
+@@edit
+= haml :errors, :layout => false
+%form(action="/stations/#{@stations.id}" method="POST")
+  %input(type="hidden" name="_method" value="PUT")
+  %fieldset
+    %legend Update this station
+    = haml :form, :layout => false
+  %input(type="submit" value="Update") or <a href='/stations'>cancel</a>

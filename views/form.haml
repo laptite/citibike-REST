@@ -1,0 +1,22 @@
+@@form
+%label(for="stationName")Station Name:
+%input#stationName(type="text" stationName="stations[stationName]"value="#{@stations.stationName}")
+
+%label(for="availableDocks")Available Docks:
+%select#quantity(name="stations[availableDocks]")
+  - %w[black white grey brown].each do |colour|
+    %option{:value => colour, :selected => (true if colour == @stations.colour)}= colour
+    
+%label(for="description") Description:
+%textarea#description(name="stations[description]")
+  =@stations.description
+  
+%label(for="quantity") Age:
+%input#age(type="text" name="stations[age]"value="#{@stations.age}")
+
+
+%p Available docks: #{@station.availableDocks}
+%p Total docks: #{@station.totalDocks}
+%p Latitude: #{@station.latitude}
+%p Longitude: #{@station.longitude}
+%p Available Bikes: #{@station.availableBikes}

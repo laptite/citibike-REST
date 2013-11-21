@@ -1,0 +1,12 @@
+@@show
+%h3= @station.name
+%p Name: #{@station.stationName}
+%p Available docks: #{@station.availableDocks}
+%p Total docks: #{@station.totalDocks}
+%p Latitude: #{@station.latitude}
+%p Longitude: #{@station.longitude}
+%p Service Status: #{@station.statusValue}
+%p Available Bikes: #{@station.availableBikes}
+%a(href="/stations/edit/#{@station.id}")EDIT
+%a(href="/stations/delete/#{@station.id}")DELETE
+%a(href='/stations') Back to index

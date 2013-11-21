@@ -1,0 +1,13 @@
+@@index
+
+%h3 Stations
+%a(href="/stations/new")Create a new station
+- unless @stations.empty?
+  %ul#stations
+  - @stations.each do |station|
+    %li{:id => "station-#{station.id}"}
+      %a(href="/stations/#{station.id}")= station.name
+      %a(href="/stations/edit/#{station.id}") EDIT
+      %a(href="/stations/delete/#{station.id}") DELETE
+- else
+  %p No stations!

@@ -3,7 +3,8 @@ require 'sinatra'
 require 'data_mapper'
 require 'haml'
 require 'bundler'
-require 'debugger'
+require './station.rb'
+require './parser.rb'
 
 Bundler.require
 
@@ -11,45 +12,52 @@ Dir.glob('./lib/*.rb') do |model|
   require model
 end
 
+
+
 module Citibike
   class App < Sinatra::Application
-    before do
-      json = File.open("data/citibikenyc.json").read
-      @data = MultiJson.load(json)
-    end
 
+DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/stations.db")
+
+    # LIST all stations
     get '/stations' do
       @stations = Station.all
       haml :index
     end
 
+    # NEW add station
     get '/stations/new' do
       @stations = Station.new
       haml :new
     end
 
-    get '/stations/edit/1' do
-      @stations = Station.get(params[:id])
-      haml :edit
-    end
-
-    get '/stations/1' do
+    # SHOW station
+    get '/stations/:id' do
       @stations = Station.get(params[:id])
       haml :show
     end
 
-    get '/stations/delete/1' do
+    # EDIT station
+    get '/stations/edit/:id' do
+      @stations = Station.get(params[:id])
+      haml :edit
+    end
+
+    # station DELETE CONFIRMATION
+    get '/stations/delete/:id' do
       @stations = Station.get(params[:id])
       haml :delete
     end
 
-    delete '/stations/1' do
+    # DELETE station
+    delete '/stations/:id' do
       Station.get(params[:id]).destroy
       redirect '/stations'  
     end
 
+    # POST new station
     post '/stations' do
-      @stations = Station.new(params[:name])
+      @stations = Station.new(params[:stationName])
       if @stations.save
         status 201
         redirect '/stations/' + @stations.id.to_s
@@ -59,9 +67,10 @@ module Citibike
       end
     end
 
+    # UDPATE station
     put '/stations/:id' do
       @stations = Station.get(params[:id])
-      if @stations.update(params[:name])
+      if @stations.update(params[:stationName])
         status 201
         redirect '/stations/' + params[:id]
       else
@@ -69,14 +78,15 @@ module Citibike
         haml :edit  
       end
     end
-
-    post '/map' do
-
-      erb :map
-    end
     
     DataMapper.auto_upgrade!
+
+    # helpers do
+    #   def partial template
+    #     erb template, :layout => false
+    #   end
+    # end
+
   end
 end
 
-# "#{params.inspect}"
